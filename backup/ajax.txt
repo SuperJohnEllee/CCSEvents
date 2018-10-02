@@ -1,0 +1,50 @@
+<script>
+    $(document).ready(function(){
+        $('#upload_csv').on('submit', function(e){
+            e.preventDefault();
+            $.ajax({
+                url:"forms/import.php";
+                method:"POST",
+                data:new FormData(this),
+                contentType:false,
+                cache:false,
+                processData:false,
+                success:function(data){
+                    console.log(data);
+                }
+            });
+        });
+    });
+</script>
+
+<?php
+    if(!empty($_FILES['student_file']['name']))
+    {
+        include('../connection.php');
+        $output = "";
+        $allowed_ext = array("csv");
+        $extension = end(explode(".", $_FILES['student_file']['name']));
+        if(in_array($extension, $allowed_ext))
+        {
+
+            $file_data = fopen($_FILES['student_file']['tmp_name'], "r");
+            fgetcsv($file_data);
+            while($row = fgetcsv($file_data))
+            {
+                print_r($row);
+            }
+        }
+        else 
+        {
+            echo "<script>
+                alert('Invalid file extension');
+            </script>";
+        }
+    }
+    else 
+    {
+        echo "<script>
+            alert('Please select a file');
+        </script>";
+    }
+?>

@@ -1,0 +1,86 @@
+    if(isset($_POST['btn_import']))
+    {
+        if($_FILES['student_file']['name'])
+        {
+            $files = explode(".", $_FILES['student_file']['name']);
+            if($filename[1] = 'csv')
+            {
+                $handle = fopen($_FILES['student_profile']['tmp_name'], "r");
+                while($data = fgetcsv($handle))
+                {
+                    $studnum = mysqli_real_escape_string($conn, $data[0]);
+                    $studLName = mysqli_real_escape_string($conn, $data[1]);
+                    $studFName = mysqli_real_escape_string($conn, $data[2]);
+                    $studMName = mysqli_real_escape_string($conn, $data[3]);
+                    $studenGender = mysqli_real_escape_string($conn, $data[4]);
+                    $studCourse = mysqli_real_escape_string($conn, $data[5]);
+                    $studYear = mysqli_real_escape_string($conn, $data[6]);
+
+                    $sql_upload = "INSERT INTO users(StudentNumber, StudentLName, StudentFName, StudentMName,
+                    StudentGender, StudentCourse, StudentYear)
+                    VALUES('".$studnum."', '".$studLName."', '".$studFName."', '".$studMName."', '".$studenGender."',
+                    '".$studCourse."', '".$studYear."')";
+                    $res_upload = mysqli_query($conn, $sql_upload);
+
+                    if($res_upload)
+                    {
+                        echo "<script>
+                            alert('Import Sucessfull');
+                            </script>";
+                    }
+                    else 
+                    {
+                        echo "<script>
+                            alert('Failure in importing data');
+                            </script>";
+                    }
+                }
+                fclose($handle);
+            }
+       }
+    }
+
+
+
+
+========================================
+
+
+    $sql = "SELECT * FROM students ORDER BY StudentID";
+    $result = mysqli_query($conn, $sql);
+    $count = mysqli_num_rows($result);
+
+    if(isset($_POST['btn_import']))
+    {
+        $filename = $_FILES['student_file']['tmp_name'];
+        
+        if($_FILES['student_file']['size'] > 0)
+        {
+            $file = fopen($filename, "r");
+
+            while(($data = fgetcsv($file, 10000, ",")) !== FALSE)
+            {
+                $sql_upload = "INSERT INTO users(StudentNumber, StudentLName, StudentFName, StudentMName,
+                    StudentGender, StudentCourse, StudentYear)";
+                    $res_upload = mysqli_query($conn, $sql_upload);
+            } 
+        }
+    }
+
+<script>
+    $(document).ready(function(){
+        $('#upload_csv').on('submit', function(){
+            $("#response").attr("class", "");
+        $("#response").html("");
+        var fileType = ".csv";
+        var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + fileType + ")$");
+        if (!regex.test($("#file").val().toLowerCase())) {
+        	    $("#response").addClass("error");
+        	    $("#response").addClass("display-block");
+            $("#response").html("Invalid File. Upload : <b>" + fileType + "</b> Files.");
+            return false;
+        }
+        return true;
+        });
+    });
+</script>

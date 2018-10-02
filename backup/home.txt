@@ -1,0 +1,22 @@
+<hr>
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="my-4 text-center">Administration</h1>
+            </div>
+            <div class="col-lg-4 col-sm-6 text-center mb-4">
+				<a style="text-decoration: none;" href="admin-manage-account.php">
+                <img src="img/home/users.png" height="200" width="200">
+                <h3>Manage Accounts<br><?php echo htmlspecialchars($admin_count); ?></h3></a>
+			</div>
+            <div class="col-lg-4 col-sm-6 text-center mb-4">
+				<a style="text-decoration: none;" href="#">
+                <img src="img/home/master_list.png" height="200" width="200">
+                <h3>Master List<br></h3></a>
+			</div>
+            <div class="col-lg-4 col-sm-6 text-center mb-4">
+				<a style="text-decoration: none;" href="admin-manage-news.php">
+                <img src="img/home/news.png" height="200" width="200">
+                <h3>Manage News<br></h3></a>
+			</div>
+        </div>
+    </div>
